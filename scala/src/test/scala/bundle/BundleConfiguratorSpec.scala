@@ -88,7 +88,7 @@ class BundleConfiguratorSpec extends FunSuite {
 
     val result = BundleConfigurator.select(cart)
 
-    val expected = "B3,P1"
+    val expected = "P1,B3"
 
     assertEquals(result, expected)
   }
