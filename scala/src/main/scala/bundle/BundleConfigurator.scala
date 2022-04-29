@@ -20,11 +20,33 @@ object BundleConfigurator {
     )
   )
 
+  // P1,P2,P3	-> B1,P3
+
+//  def findResult(products: List[Product]): String = {
+//    bundles.find(bundle =>
+//      bundle.products.forall(product => products.contains(product))
+//    ).fold("") { bundle =>
+//      products.filter(product => !bundle.products.contains(product)).mkString(",")
+//    }
+//  }
+
+  def findBundles(products: List[Product]): List[Bundle] = {
+    bundles.filter(bundle =>
+      bundle.products.forall(product => products.contains(product))
+    )
+  }
+
+  def findResult(products: List[Product], bundles: List[Bundle]): String = {
+
+    val productsWithoutBundle = products.filterNot(product => bundles.exists(_.products.contains(product)))
+
+    (bundles.map(_.name) ++ productsWithoutBundle.map(_.name)).mkString(",")
+  }
+
   def select(cart: Cart): String = cart.products match {
     case Nil => ???
     case product :: Nil => product.name
-    case products =>
-      bundles.find(bundle => bundle.products.forall(product => products.contains(product))).fold("")(_.name)
+    case products => findResult(products, findBundles(products))
   }
 
 }
