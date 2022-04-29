@@ -30,4 +30,19 @@ class BundleConfiguratorSpec extends FunSuite {
     assertEquals(result, expected)
   }
 
+  test("Bundle configurator should return B1 for P2,P1") {
+    val cart = Cart(
+      List(
+        Product("P2", 20),
+        Product("P1", 10)
+      )
+    )
+
+    val result = BundleConfigurator.select(cart)
+
+    val expected = "B1"
+
+    assertEquals(result, expected)
+  }
+
 }
