@@ -9,6 +9,6 @@ lazy val root = (project in file("."))
   .settings(
     name := "bundle-configurator",
     libraryDependencies ++= Seq(
-      munit, munitScalacheck
+      cats, munit, munitScalacheck
     )
   )
