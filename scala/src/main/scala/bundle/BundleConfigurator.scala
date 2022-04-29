@@ -5,19 +5,23 @@ import bundle.Model.{Bundle, Cart, Product}
 object BundleConfigurator {
   val p1 = Product("P1", 10)
   val p2 = Product("P2", 20)
+  val p3 = Product("P3", 30)
+  val p4 = Product("P4", 40)
 
   val products = List(
     p1,
     p2,
-    Product("P3", 30),
-    Product("P4", 40),
+p3,
+    p4,
     Product("P5", 50)
   )
 
   val bundles = List(
     Bundle(
       "B1", List(p1, p2), 25
-    )
+    ),Bundle(
+      "B3", List(p3, p4), 60
+    ),
   )
 
   // P1,P2,P3	-> B1,P3
