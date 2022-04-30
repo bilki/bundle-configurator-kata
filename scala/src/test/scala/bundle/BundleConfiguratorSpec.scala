@@ -43,8 +43,20 @@ class BundleConfiguratorSpec extends ScalaCheckSuite {
         case b: Bundle => b.products
       }
 
-      assertEquals(cart.products.size, allProducts.size)
-      assertEquals(cart.products.toSet, allProducts.toSet)
+      assertEquals(allProducts.size, cart.products.size)
+      assertEquals(allProducts.toSet, cart.products.toSet)
+    }
+  }
+
+  test("For any given set of products, the resulting price is always lower or equal than original price") {
+    forAll { cart: Cart =>
+      val result = select(cart)
+
+      val resultTotal = result.map(_.price).sum
+
+      val originalPrice = cart.products.map(_.price).sum
+
+      assert(clue(resultTotal) <= clue(originalPrice))
     }
   }
 }
