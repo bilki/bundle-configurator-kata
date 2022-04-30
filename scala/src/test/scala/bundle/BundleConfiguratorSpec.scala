@@ -1,6 +1,6 @@
 package bundle
 
-import bundle.Model.Cart
+import bundle.Model.{Cart, Item}
 import munit.FunSuite
 
 class BundleConfiguratorSpec extends FunSuite {
@@ -13,15 +13,20 @@ class BundleConfiguratorSpec extends FunSuite {
     List(p2, p1)     -> List(b1),
     List(p1, p2, p3) -> List(b1, p3),
     List(p1, p3, p2) -> List(b1, p3), // Same as previous with unordered input
-    List(p1, p3, p4) -> List(p1, b3)
+    List(p1, p3, p4) -> List(p1, b3),
+    List(p1, p2, p3, p4) -> List(b4),
+    List(p2, p4)         -> List(p2, p4),
+    List(p2, p3, p4)     -> List(p2, b3),
+    List(p3, p4)         -> List(b3)
   ).foreach { case (input, expected) =>
     test(s"Bundle configurator should return ${expected
-        .map(_.name).mkString(",")} for input ${input.map(_.name).mkString(",")}") {
+        .map(_.name)
+        .mkString(",")} for input ${input.map(_.name).mkString(",")}") {
       val cart = Cart(input)
 
       val result = select(cart)
 
-      assertEquals(result, expected)
+      assertEquals(result.toSet: Set[Item], expected.toSet: Set[Item])
     }
   }
 
