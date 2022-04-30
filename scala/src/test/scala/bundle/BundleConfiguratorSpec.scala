@@ -1,16 +1,19 @@
 package bundle
 
-import bundle.Model.{Cart, Product}
+import bundle.Model.Cart
+import bundle.Model.Item.Product
 import munit.FunSuite
 
 class BundleConfiguratorSpec extends FunSuite {
+  
+  import BundleConfigurator._
 
   test("Bundle configurator should return a product for a product") {
     val cart = Cart(List(Product("P1", 10)))
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "P1"
+    val expected = List(p1)
 
     assertEquals(result, expected)
   }
@@ -23,9 +26,9 @@ class BundleConfiguratorSpec extends FunSuite {
       )
     )
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "B1"
+    val expected = List(b1)
 
     assertEquals(result, expected)
   }
@@ -38,9 +41,9 @@ class BundleConfiguratorSpec extends FunSuite {
       )
     )
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "B1"
+    val expected = List(b1)
 
     assertEquals(result, expected)
   }
@@ -54,9 +57,9 @@ class BundleConfiguratorSpec extends FunSuite {
       )
     )
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "B1,P3"
+    val expected = List(b1, p3)
 
     assertEquals(result, expected)
   }
@@ -70,9 +73,9 @@ class BundleConfiguratorSpec extends FunSuite {
       )
     )
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "B1,P3"
+    val expected = List(b1, p3)
 
     assertEquals(result, expected)
   }
@@ -86,9 +89,9 @@ class BundleConfiguratorSpec extends FunSuite {
       )
     )
 
-    val result = BundleConfigurator.select(cart)
+    val result = select(cart)
 
-    val expected = "P1,B3"
+    val expected = List(p1, b3)
 
     assertEquals(result, expected)
   }
