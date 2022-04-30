@@ -1,9 +1,13 @@
 package bundle
 
 import bundle.Model.{Cart, Item}
-import munit.FunSuite
+import munit.ScalaCheckSuite
+import org.scalacheck.Prop._
+import bundle.Model.Item.Bundle
+import bundle.Model.Item.Product
+import Arbitraries._
 
-class BundleConfiguratorSpec extends FunSuite {
+class BundleConfiguratorSpec extends ScalaCheckSuite {
 
   import BundleConfigurator._
 
@@ -30,4 +34,17 @@ class BundleConfiguratorSpec extends FunSuite {
     }
   }
 
+  test("For any given set of products, all products must be contained within result") {
+    forAll { cart: Cart =>
+      val result = select(cart)
+
+      val allProducts: List[Product] = result.flatMap {
+        case p: Product => List(p)
+        case b: Bundle => b.products
+      }
+
+      assertEquals(cart.products.size, allProducts.size)
+      assertEquals(cart.products.toSet, allProducts.toSet)
+    }
+  }
 }
