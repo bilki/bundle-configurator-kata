@@ -7,7 +7,7 @@ object Arbitraries {
   import BundleConfigurator._
 
   val productsGen = Gen.someOf(products).map(_.toList)
-  val cartGen = productsGen.map(Cart)
+  val cartGen     = productsGen.map(Cart)
 
   implicit val cartArb = Arbitrary(cartGen)
 }

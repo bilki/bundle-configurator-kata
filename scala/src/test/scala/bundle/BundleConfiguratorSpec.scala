@@ -34,13 +34,15 @@ class BundleConfiguratorSpec extends ScalaCheckSuite {
     }
   }
 
-  test("For any given set of products, all products must be contained within result") {
+  test(
+    "For any given set of products, all products must be contained within result"
+  ) {
     forAll { cart: Cart =>
       val result = select(cart)
 
       val allProducts: List[Product] = result.flatMap {
         case p: Product => List(p)
-        case b: Bundle => b.products
+        case b: Bundle  => b.products
       }
 
       assertEquals(allProducts.size, cart.products.size)
@@ -48,7 +50,9 @@ class BundleConfiguratorSpec extends ScalaCheckSuite {
     }
   }
 
-  test("For any given set of products, the resulting price is always lower or equal than original price") {
+  test(
+    "For any given set of products, the resulting price is always lower or equal than original price"
+  ) {
     forAll { cart: Cart =>
       val result = select(cart)
 
